@@ -45,20 +45,27 @@ export default function Home() {
         </div>
       </nav>
       {/* Hero Images Carousel */}
-      <div className="w-full flex justify-center mt-6 px-8">
-        <div className="relative w-[1800px] h-[450px] overflow-hidden rounded-lg shadow-lg">
+      <div className="w-full flex justify-center mt-6">
+        <div className="relative w-full max-w-full aspect-[12/3] overflow-hidden rounded-lg shadow-lg">
           <Carousel />
         </div>
       </div>
       {/* Testimonial */}
-      <div className="flex flex-col items-center mt-8">
-        <div className="flex gap-1 mb-2">
-          {/* Placeholder for 6 blue heart icons */}
+      <div className="flex items-center justify-center mt-8 w-full">
+        <div className="flex gap-1 mr-3">
+          {/* 6 blue heart SVGs */}
           {Array.from({ length: 6 }).map((_, i) => (
-            <span key={i} className="w-5 h-5 bg-blue-400 rounded-full inline-block" />
+            <Image
+              key={i}
+              src="/Filled Heart.svg"
+              alt="Heart"
+              width={28}
+              height={28}
+              className="inline-block align-middle"
+            />
           ))}
         </div>
-        <span className="text-gray-700 font-medium">Loved by 500,000+ travelers.</span>
+        <span className="text-gray-700 font-medium text-lg whitespace-nowrap">Loved by 500,000+ travelers.</span>
       </div>
       {/* Headline & CTA */}
       <div className="flex flex-col items-center mt-8 mb-12 px-4">
@@ -102,19 +109,19 @@ function Carousel() {
 
   return (
     <div
-      className={`flex w-[${images.length * 600 * 2}px] h-[450px]`}
+      className={`flex w-full h-full`}
       style={{
-        transform: `translateX(-${index * 600}px)`,
+        transform: `translateX(-${index * 100 / images.length}%)`,
         transition: isTransitioning ? 'transform 0.7s' : 'none',
+        width: `${(carouselImages.length / images.length) * 100}%`,
       }}
     >
       {carouselImages.map((src, i) => (
-        <div key={i} className="w-[600px] h-[450px] flex-shrink-0">
+        <div key={i} className="flex-shrink-0 w-1/3 h-full">
           <Image
             src={src}
             alt={`Carousel image ${((i % images.length) + 1)}`}
-            width={600}
-            height={450}
+            fill
             className="object-cover w-full h-full"
             priority={i === 0}
           />
