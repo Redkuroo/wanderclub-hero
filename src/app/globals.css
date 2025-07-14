@@ -19,6 +19,10 @@
   }
 }
 
+html, body {
+  font-family: 'TT Norms Pro', Arial, Helvetica, sans-serif;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
