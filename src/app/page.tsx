@@ -49,19 +49,18 @@ export default function Home() {
             <input
               type="text"
               placeholder="Search (e.g. Mexico, Florida, Yellowstone)"
-              className="border-2 border-teal-400 rounded-full px-4 py-1 w-72 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
+              className="border-2 border-teal-400 rounded-full px-4 py-1 pr-10 w-72 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
               style={{ fontFamily: 'TT Norms Pro, Arial, Helvetica, sans-serif' }}
             />
-            <Image src="/Search.svg" alt="Search" width={20} height={20} className="absolute right-3 top-1/2 -translate-y-1/2" />
+            <Image src="/Search.svg" alt="Search" width={20} height={20} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
           {/* Mobile icons */}
-          <Image src="/Search.svg" alt="Search" width={24} height={24} className="md:hidden" />
+         
           <Image src="/Customer.svg" alt="Customer" width={24} height={24} />
           <Image src="/Shopping Cart.svg" alt="Cart" width={24} height={24} />
+          <Image src="/Menu.svg" alt="Menu" width={24} height={24} className="md:hidden" />
           {/* Hamburger menu for mobile */}
-          <button className="md:hidden">
-            <svg width="32" height="32" fill="none" viewBox="0 0 32 32"><rect y="7" width="32" height="2" rx="1" fill="#222"/><rect y="15" width="32" height="2" rx="1" fill="#222"/><rect y="23" width="32" height="2" rx="1" fill="#222"/></svg>
-          </button>
+        
         </div>
       </nav>
       {/* Hero Images Carousel */}
