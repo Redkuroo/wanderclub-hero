@@ -46,7 +46,7 @@ export default function Home() {
       </nav>
       {/* Hero Images Carousel */}
       <div className="w-full flex justify-center mt-6 px-8">
-        <div className="relative w-[600px] h-[450px] overflow-hidden rounded-lg shadow-lg">
+        <div className="relative w-[1800px] h-[450px] overflow-hidden rounded-lg shadow-lg">
           <Carousel />
         </div>
       </div>
@@ -75,28 +75,29 @@ function Carousel() {
     "/img2.png",
     "/img3.png",
   ];
-  const [index, setIndex] = useState(0);
+  const [offset, setOffset] = useState(0);
   const timeoutRef = useRef<any>(null);
 
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
-      setIndex((prev) => (prev + 1) % images.length);
+      setOffset((prev) => (prev === 0 ? -600 : prev === -600 ? -1200 : 0));
     }, 2500);
     return () => clearTimeout(timeoutRef.current);
-  }, [index]);
+  }, [offset]);
 
   return (
-    <div className="w-full h-full flex transition-transform duration-700" style={{ transform: `translateX(-${index * 600}px)` }}>
+    <div className="flex w-[1800px] h-[450px] transition-transform duration-700" style={{ transform: `translateX(${offset}px)` }}>
       {images.map((src, i) => (
-        <Image
-          key={src}
-          src={src}
-          alt={`Carousel image ${i + 1}`}
-          width={600}
-          height={450}
-          className="object-cover flex-shrink-0"
-          priority={i === 0}
-        />
+        <div key={src} className="w-[600px] h-[450px] flex-shrink-0">
+          <Image
+            src={src}
+            alt={`Carousel image ${i + 1}`}
+            width={600}
+            height={450}
+            className="object-cover w-full h-full"
+            priority={i === 0}
+          />
+        </div>
       ))}
     </div>
   );
