@@ -21,22 +21,22 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Promo Bar */}
-      <div className="bg-[#2196f3] text-white text-xs text-center flex flex-col items-center justify-center uppercase tracking-widest font-medium w-full h-[70px]  my-[14px] px-4">
-        <div>
+      <div className="bg-[#2196f3] text-white text-center flex flex-col items-center justify-center uppercase tracking-widest font-medium w-full h-[56px] sm:h-[64px] md:h-[70px] my-[14px] px-2 sm:px-4 text-[11px] sm:text-xs md:text-sm gap-1">
+        <div className="flex flex-wrap justify-center items-center gap-2">
           20% OFF CODE: <span className="font-bold underline">PRIMETIME20</span> <a href="#" className="font-bold underline ml-1">SHOP NOW</a>
         </div>
-        <div className="mt-1 normal-case tracking-normal font-normal">
+        <div className="normal-case tracking-normal font-normal text-[10px] sm:text-xs md:text-sm">
           Sale Ends: <span className="font-bold">03hrs 29min 57sec</span>
         </div>
       </div>
       {/* Navigation */}
-      <nav className="flex items-center justify-between border-b px-4 py-4 bg-white md:px-8">
+      <nav className="flex items-center justify-between border-b px-2 sm:px-4 md:px-8 py-3 md:py-4 bg-white w-full">
         {/* Logo */}
-        <div className="flex items-center gap-2 min-w-[120px] md:min-w-[200px]">
-          <Image src="/logo.svg" alt="The Wander Club Logo" width={120} height={32} priority className="md:w-[160px] md:h-[32px] w-[120px] h-[24px]" />
+        <div className="flex items-center gap-2 min-w-[100px] sm:min-w-[120px] md:min-w-[200px]">
+          <Image src="/logo.svg" alt="The Wander Club Logo" width={100} height={28} priority className="w-[100px] h-[28px] sm:w-[120px] sm:h-[32px] md:w-[160px] md:h-[32px]" />
         </div>
         {/* Nav Links (hidden on mobile) */}
-        <ul className="hidden md:flex gap-8 font-semibold text-base flex-1 justify-center">
+        <ul className="hidden md:flex gap-4 lg:gap-8 font-semibold text-xs sm:text-base flex-1 justify-center">
           <li className="text-blue-500 border-b-2 border-blue-500 pb-1">HOME</li>
           <li className="hover:text-blue-500 cursor-pointer">TOKENS</li>
           <li className="hover:text-blue-500 cursor-pointer">TOKEN HOLDERS</li>
@@ -44,52 +44,49 @@ export default function Home() {
           <li className="hover:text-blue-500 cursor-pointer">THE CLUBHOUSE</li>
         </ul>
         {/* Search and Icons */}
-        <div className="flex items-center gap-4 min-w-[120px] md:min-w-[320px] justify-end">
-          <div className="hidden md:block relative">
+        <div className="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-[100px] sm:min-w-[120px] md:min-w-[320px] justify-end">
+          <div className="hidden md:block relative w-48 lg:w-72">
             <input
               type="text"
               placeholder="Search (e.g. Mexico, Florida, Yellowstone)"
-              className="border-2 border-teal-400 rounded-full px-4 py-1 pr-10 w-72 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
+              className="border-2 border-teal-400 rounded-full px-3 py-1 pr-10 w-full text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
               style={{ fontFamily: 'TT Norms Pro, Arial, Helvetica, sans-serif' }}
             />
             <Image src="/Search.svg" alt="Search" width={20} height={20} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
           </div>
           {/* Mobile icons */}
-         
-          <Image src="/Customer.svg" alt="Customer" width={24} height={24} />
-          <Image src="/Shopping Cart.svg" alt="Cart" width={24} height={24} />
-          <Image src="/Menu.svg" alt="Menu" width={24} height={24} className="md:hidden" />
-          {/* Hamburger menu for mobile */}
-        
+          <Image src="/Customer.svg" alt="Customer" width={22} height={22} className="w-[22px] h-[22px] sm:w-[24px] sm:h-[24px]" />
+          <Image src="/Shopping Cart.svg" alt="Cart" width={22} height={22} className="w-[22px] h-[22px] sm:w-[24px] sm:h-[24px]" />
+          <Image src="/Menu.svg" alt="Menu" width={22} height={22} className="md:hidden w-[22px] h-[22px] sm:w-[24px] sm:h-[24px]" />
         </div>
       </nav>
       {/* Hero Images Carousel */}
       <div className="w-full flex justify-center mt-0">
-        <div className="relative w-full h-[calc(100vw*0.75)] md:w-[1800px] md:h-[450px] overflow-hidden rounded-lg shadow-lg">
+        <div className="relative w-full h-[calc(100vw*0.75)] sm:h-[320px] md:w-[1800px] md:h-[450px] overflow-hidden rounded-lg shadow-lg">
           <Carousel />
         </div>
       </div>
       {/* Testimonial */}
-      <div className="flex flex-col items-center justify-center mt-8 w-full px-2 text-center md:flex-row md:items-center md:justify-center md:text-left">
-        <div className="flex gap-1 mb-2 md:mb-0 md:mr-3 justify-center">
+      <div className="flex flex-col items-center justify-center mt-6 sm:mt-8 w-full px-2 text-center md:flex-row md:items-center md:justify-center md:text-left gap-1 sm:gap-2">
+        <div className="flex gap-1 sm:gap-2 mb-1 md:mb-0 md:mr-3 justify-center">
           {/* 5 blue heart SVGs */}
           {Array.from({ length: 5 }).map((_, i) => (
             <Image
               key={i}
               src="/Filled Heart.svg"
               alt="Heart"
-              width={28}
-              height={28}
-              className="inline-block align-middle"
+              width={22}
+              height={22}
+              className="inline-block align-middle w-[18px] h-[18px] sm:w-[22px] sm:h-[22px]"
             />
           ))}
         </div>
-        <span className="text-gray-700 font-medium text-lg whitespace-nowrap">Loved by 500,000+ travelers.</span>
+        <span className="text-gray-700 font-medium text-xs sm:text-base md:text-lg whitespace-nowrap">Loved by 500,000+ travelers.</span>
       </div>
-      {/* Headline & CTA */}
-      <div className="flex flex-col items-center mt-8 mb-12 px-4 w-full">
-        <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-center mb-8 leading-tight">Hold on to the places that hold your heart</h1>
-        <button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-lg rounded-full px-6 py-4 shadow-md transition-colors cursor-pointer w-full max-w-[420px]">Start Your Collection</button>
+      {/* Headline & CTA: center and pad for mobile */}
+      <div className="flex flex-col items-center mt-6 sm:mt-8 mb-8 sm:mb-12 px-2 sm:px-4 w-full">
+        <h1 className="text-lg sm:text-2xl md:text-4xl lg:text-5xl font-bold text-center mb-4 sm:mb-8 leading-tight">Hold on to the places that hold your heart</h1>
+        <button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-base sm:text-lg rounded-full px-4 sm:px-6 py-3 sm:py-4 shadow-md transition-colors cursor-pointer w-full max-w-[420px]">Start Your Collection</button>
       </div>
     </div>
   );
