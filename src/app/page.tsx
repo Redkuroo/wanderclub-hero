@@ -1,4 +1,7 @@
+'use client';
+
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
   return (
@@ -41,16 +44,10 @@ export default function Home() {
           <Image src="/Shopping Cart.svg" alt="Cart" width={24} height={24} />
         </div>
       </nav>
-      {/* Hero Images */}
-      <div className="flex justify-center gap-2 mt-6 px-8">
-        <div className="w-1/3 aspect-[4/5] bg-gray-200 rounded-lg flex items-center justify-center">
-          <span className="text-gray-400">Image 1</span>
-        </div>
-        <div className="w-1/3 aspect-[4/5] bg-gray-200 rounded-lg flex items-center justify-center">
-          <span className="text-gray-400">Image 2</span>
-        </div>
-        <div className="w-1/3 aspect-[4/5] bg-gray-200 rounded-lg flex items-center justify-center">
-          <span className="text-gray-400">Image 3</span>
+      {/* Hero Images Carousel */}
+      <div className="w-full flex justify-center mt-6 px-8">
+        <div className="relative w-[600px] h-[450px] overflow-hidden rounded-lg shadow-lg">
+          <Carousel />
         </div>
       </div>
       {/* Testimonial */}
@@ -68,6 +65,39 @@ export default function Home() {
         <h1 className="text-3xl md:text-5xl font-bold text-center mb-8">Hold on to the places that hold your heart</h1>
         <button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-lg rounded-full px-10 py-4 shadow-md transition-colors">Start Your Collection</button>
       </div>
+    </div>
+  );
+}
+
+function Carousel() {
+  const images = [
+    "/img1.png",
+    "/img2.png",
+    "/img3.png",
+  ];
+  const [index, setIndex] = useState(0);
+  const timeoutRef = useRef<any>(null);
+
+  useEffect(() => {
+    timeoutRef.current = setTimeout(() => {
+      setIndex((prev) => (prev + 1) % images.length);
+    }, 2500);
+    return () => clearTimeout(timeoutRef.current);
+  }, [index]);
+
+  return (
+    <div className="w-full h-full flex transition-transform duration-700" style={{ transform: `translateX(-${index * 600}px)` }}>
+      {images.map((src, i) => (
+        <Image
+          key={src}
+          src={src}
+          alt={`Carousel image ${i + 1}`}
+          width={600}
+          height={450}
+          className="object-cover flex-shrink-0"
+          priority={i === 0}
+        />
+      ))}
     </div>
   );
 }
