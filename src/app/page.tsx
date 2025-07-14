@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Promo Bar */}
-      <div className="bg-[#2196f3] text-white text-xs text-center py-2 px-4 flex flex-col items-center justify-center uppercase tracking-widest font-medium">
+      <div className="bg-[#2196f3] text-white text-xs text-center flex flex-col items-center justify-center uppercase tracking-widest font-medium w-full h-[70px]  my-[14px] px-4">
         <div>
           20% OFF CODE: <span className="font-bold underline">PRIMETIME20</span> <a href="#" className="font-bold underline ml-1">SHOP NOW</a>
         </div>
