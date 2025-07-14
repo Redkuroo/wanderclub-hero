@@ -4,34 +4,41 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
       {/* Promo Bar */}
-      <div className="bg-blue-500 text-white text-xs text-center py-2 px-4">
-        20% OFF CODE: <span className="font-bold">PRIMETIME20</span> <a href="#" className="underline ml-1">SHOP NOW</a>
-        <span className="ml-4">Sale Ends: <span className="font-mono">03hrs 29min 57sec</span></span>
+      <div className="bg-[#2196f3] text-white text-xs text-center py-2 px-4 flex flex-col items-center justify-center uppercase tracking-widest font-medium">
+        <div>
+          20% OFF CODE: <span className="font-bold underline">PRIMETIME20</span> <a href="#" className="font-bold underline ml-1">SHOP NOW</a>
+        </div>
+        <div className="mt-1 normal-case tracking-normal font-normal">
+          Sale Ends: <span className="font-bold">03hrs 29min 57sec</span>
+        </div>
       </div>
       {/* Navigation */}
-      <nav className="flex items-center justify-between border-b px-8 py-4">
-        <div className="flex items-center gap-2">
-          {/* Logo Placeholder */}
-          <span className="font-bold text-lg tracking-wide">THE <span className="italic font-serif text-2xl">Wander</span> CLUB</span>
+      <nav className="flex items-center justify-between border-b px-8 py-4 bg-white">
+        {/* Logo */}
+        <div className="flex items-center gap-2 min-w-[200px]">
+          <Image src="/logo.svg" alt="The Wander Club Logo" width={160} height={32} priority />
         </div>
-        <ul className="flex gap-8 font-semibold text-base">
+        {/* Nav Links */}
+        <ul className="flex gap-8 font-semibold text-base flex-1 justify-center">
           <li className="text-blue-500 border-b-2 border-blue-500 pb-1">HOME</li>
           <li className="hover:text-blue-500 cursor-pointer">TOKENS</li>
           <li className="hover:text-blue-500 cursor-pointer">TOKEN HOLDERS</li>
           <li className="hover:text-blue-500 cursor-pointer">MERCH</li>
           <li className="hover:text-blue-500 cursor-pointer">THE CLUBHOUSE</li>
         </ul>
-        <div className="flex items-center gap-4">
-          {/* Search Bar */}
-          <input
-            type="text"
-            placeholder="Search (e.g. Mexico, Florida, Yellowstone)"
-            className="border rounded-full px-4 py-1 w-64 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
-          />
-          {/* Placeholder icons */}
-          <span className="w-5 h-5 bg-gray-300 rounded-full inline-block" />
-          <span className="w-5 h-5 bg-gray-300 rounded-full inline-block" />
-          <span className="w-5 h-5 bg-gray-300 rounded-full inline-block" />
+        {/* Search and Icons */}
+        <div className="flex items-center gap-4 min-w-[320px] justify-end">
+          <div className="relative">
+            <input
+              type="text"
+              placeholder="Search (e.g. Mexico, Florida, Yellowstone)"
+              className="border-2 border-teal-400 rounded-full px-4 py-1 w-72 text-sm focus:outline-none focus:ring-2 focus:ring-teal-300"
+              style={{ fontFamily: 'TT Norms Pro, Arial, Helvetica, sans-serif' }}
+            />
+            <Image src="/Search.svg" alt="Search" width={20} height={20} className="absolute right-3 top-1/2 -translate-y-1/2" />
+          </div>
+          <Image src="/Customer.svg" alt="Customer" width={24} height={24} />
+          <Image src="/Shopping Cart.svg" alt="Cart" width={24} height={24} />
         </div>
       </nav>
       {/* Hero Images */}
