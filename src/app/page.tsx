@@ -3,6 +3,20 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+// Custom hook to get number of visible images
+function useVisibleImages() {
+  const [visible, setVisible] = useState(1);
+  useEffect(() => {
+    function handleResize() {
+      setVisible(window.innerWidth >= 768 ? 3 : 1);
+    }
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  return visible;
+}
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -16,13 +30,13 @@ export default function Home() {
         </div>
       </div>
       {/* Navigation */}
-      <nav className="flex items-center justify-between border-b px-8 py-4 bg-white">
+      <nav className="flex items-center justify-between border-b px-4 py-4 bg-white md:px-8">
         {/* Logo */}
-        <div className="flex items-center gap-2 min-w-[200px]">
-          <Image src="/logo.svg" alt="The Wander Club Logo" width={160} height={32} priority />
+        <div className="flex items-center gap-2 min-w-[120px] md:min-w-[200px]">
+          <Image src="/logo.svg" alt="The Wander Club Logo" width={120} height={32} priority className="md:w-[160px] md:h-[32px] w-[120px] h-[24px]" />
         </div>
-        {/* Nav Links */}
-        <ul className="flex gap-8 font-semibold text-base flex-1 justify-center">
+        {/* Nav Links (hidden on mobile) */}
+        <ul className="hidden md:flex gap-8 font-semibold text-base flex-1 justify-center">
           <li className="text-blue-500 border-b-2 border-blue-500 pb-1">HOME</li>
           <li className="hover:text-blue-500 cursor-pointer">TOKENS</li>
           <li className="hover:text-blue-500 cursor-pointer">TOKEN HOLDERS</li>
@@ -30,8 +44,8 @@ export default function Home() {
           <li className="hover:text-blue-500 cursor-pointer">THE CLUBHOUSE</li>
         </ul>
         {/* Search and Icons */}
-        <div className="flex items-center gap-4 min-w-[320px] justify-end">
-          <div className="relative">
+        <div className="flex items-center gap-4 min-w-[120px] md:min-w-[320px] justify-end">
+          <div className="hidden md:block relative">
             <input
               type="text"
               placeholder="Search (e.g. Mexico, Florida, Yellowstone)"
@@ -40,21 +54,27 @@ export default function Home() {
             />
             <Image src="/Search.svg" alt="Search" width={20} height={20} className="absolute right-3 top-1/2 -translate-y-1/2" />
           </div>
+          {/* Mobile icons */}
+          <Image src="/Search.svg" alt="Search" width={24} height={24} className="md:hidden" />
           <Image src="/Customer.svg" alt="Customer" width={24} height={24} />
           <Image src="/Shopping Cart.svg" alt="Cart" width={24} height={24} />
+          {/* Hamburger menu for mobile */}
+          <button className="md:hidden">
+            <svg width="32" height="32" fill="none" viewBox="0 0 32 32"><rect y="7" width="32" height="2" rx="1" fill="#222"/><rect y="15" width="32" height="2" rx="1" fill="#222"/><rect y="23" width="32" height="2" rx="1" fill="#222"/></svg>
+          </button>
         </div>
       </nav>
       {/* Hero Images Carousel */}
       <div className="w-full flex justify-center mt-6">
-        <div className="relative w-full max-w-full aspect-[12/3] overflow-hidden rounded-lg shadow-lg">
+        <div className="relative w-full max-w-[600px] h-[calc(100vw*0.75)] md:w-[1800px] md:h-[450px] overflow-hidden rounded-lg shadow-lg">
           <Carousel />
         </div>
       </div>
       {/* Testimonial */}
-      <div className="flex items-center justify-center mt-8 w-full">
-        <div className="flex gap-1 mr-3">
-          {/* 6 blue heart SVGs */}
-          {Array.from({ length: 6 }).map((_, i) => (
+      <div className="flex flex-col items-center justify-center mt-8 w-full px-2 text-center md:flex-row md:items-center md:justify-center md:text-left">
+        <div className="flex gap-1 mb-2 md:mb-0 md:mr-3 justify-center">
+          {/* 5 blue heart SVGs */}
+          {Array.from({ length: 5 }).map((_, i) => (
             <Image
               key={i}
               src="/Filled Heart.svg"
@@ -68,9 +88,9 @@ export default function Home() {
         <span className="text-gray-700 font-medium text-lg whitespace-nowrap">Loved by 500,000+ travelers.</span>
       </div>
       {/* Headline & CTA */}
-      <div className="flex flex-col items-center mt-8 mb-12 px-4">
-        <h1 className="text-3xl md:text-5xl font-bold text-center mb-8">Hold on to the places that hold your heart</h1>
-        <button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-lg rounded-full px-10 py-4 shadow-md transition-colors">Start Your Collection</button>
+      <div className="flex flex-col items-center mt-8 mb-12 px-4 w-full">
+        <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-center mb-8 leading-tight">Hold on to the places that hold your heart</h1>
+        <button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold text-lg rounded-full px-6 py-4 shadow-md transition-colors cursor-pointer w-full max-w-[420px]">Start Your Collection</button>
       </div>
     </div>
   );
@@ -87,6 +107,7 @@ function Carousel() {
   const [index, setIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const timeoutRef = useRef<any>(null);
+  const visibleImages = useVisibleImages();
 
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
@@ -109,15 +130,15 @@ function Carousel() {
 
   return (
     <div
-      className={`flex w-full h-full`}
+      className="flex h-full"
       style={{
-        transform: `translateX(-${index * 100 / images.length}%)`,
+        width: `calc(${carouselImages.length} * 100% / ${visibleImages})`,
+        transform: `translateX(-${index * 100 / carouselImages.length * visibleImages}%)`,
         transition: isTransitioning ? 'transform 0.7s' : 'none',
-        width: `${(carouselImages.length / images.length) * 100}%`,
       }}
     >
       {carouselImages.map((src, i) => (
-        <div key={i} className="flex-shrink-0 w-1/3 h-full">
+        <div key={i} className={`flex-shrink-0 h-full ${visibleImages === 1 ? 'w-full' : 'md:w-[600px] md:h-[450px] w-full'}`}>
           <Image
             src={src}
             alt={`Carousel image ${((i % images.length) + 1)}`}
