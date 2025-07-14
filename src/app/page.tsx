@@ -66,7 +66,7 @@ export default function Home() {
       </nav>
       {/* Hero Images Carousel */}
       <div className="w-full flex justify-center mt-6">
-        <div className="relative w-full max-w-[600px] h-[calc(100vw*0.75)] md:w-[1800px] md:h-[450px] overflow-hidden rounded-lg shadow-lg">
+        <div className="relative w-full max-w-[600px] h-[calc(100vw*0.75)] md:max-w-[1800px] md:w-[1800px] md:h-[450px] h-[calc(100vw*0.75)] overflow-hidden rounded-lg shadow-lg">
           <Carousel />
         </div>
       </div>
@@ -103,12 +103,26 @@ function Carousel() {
     "/img3.png",
   ];
   // Duplicate images for seamless looping
-  const carouselImages = [...images, ...images];
+  const visibleImages = useVisibleImages();
+  // For seamless loop, duplicate images enough to cover the visible area
+  const carouselImages = [...images, ...images, ...images];
   const [index, setIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(true);
   const timeoutRef = useRef<any>(null);
-  const visibleImages = useVisibleImages();
 
+  // Calculate slide width
+  const slideWidth = 600; // px
+  const slideHeight = 450; // px
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Animation interval
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
       setIsTransitioning(true);
@@ -117,33 +131,73 @@ function Carousel() {
     return () => clearTimeout(timeoutRef.current);
   }, [index]);
 
-  // When we reach the duplicate set, reset instantly to the start
+  // When we reach the end, reset instantly to the start (after transition)
   useEffect(() => {
-    if (index === images.length) {
+    if (isDesktop && index >= images.length * 2) {
       const timeout = setTimeout(() => {
         setIsTransitioning(false);
-        setIndex(0);
+        setIndex(images.length);
       }, 700); // match transition duration
       return () => clearTimeout(timeout);
+    } else if (!isDesktop && index >= images.length * 2) {
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setIndex(images.length);
+      }, 700);
+      return () => clearTimeout(timeout);
+    } else {
+      setIsTransitioning(true);
     }
-  }, [index, images.length]);
+  }, [index, images.length, isDesktop]);
+
+  // On mount, set index to images.length for seamless loop
+  useEffect(() => {
+    setIndex(images.length);
+  }, [isDesktop, images.length]);
+
+  // Calculate transform for correct alignment
+  const getTransform = () => {
+    if (isDesktop) {
+      // Always show 3 images, so offset by index * slideWidth
+      return `translateX(-${index * slideWidth}px)`;
+    } else {
+      return `translateX(-${index * 100}%)`;
+    }
+  };
+
+  // Set container width for desktop (3 images visible)
+  const getContainerWidth = () => {
+    if (isDesktop) {
+      return `${carouselImages.length * slideWidth}px`;
+    } else {
+      return '100%';
+    }
+  };
 
   return (
     <div
       className="flex h-full"
       style={{
-        width: `calc(${carouselImages.length} * 100% / ${visibleImages})`,
-        transform: `translateX(-${index * 100 / carouselImages.length * visibleImages}%)`,
+        width: getContainerWidth(),
+        transform: getTransform(),
         transition: isTransitioning ? 'transform 0.7s' : 'none',
       }}
     >
       {carouselImages.map((src, i) => (
-        <div key={i} className={`flex-shrink-0 h-full ${visibleImages === 1 ? 'w-full' : 'md:w-[600px] md:h-[450px] w-full'}`}>
+        <div
+          key={i}
+          className={
+            isDesktop
+              ? `flex-shrink-0 w-[600px] h-[450px]`
+              : `flex-shrink-0 w-full h-full`
+          }
+          style={isDesktop ? { width: `${slideWidth}px`, height: `${slideHeight}px` } : {}}
+        >
           <Image
             src={src}
             alt={`Carousel image ${((i % images.length) + 1)}`}
             fill
-            className="object-cover w-full h-full"
+            className="object-contain w-full h-full bg-white"
             priority={i === 0}
           />
         </div>
