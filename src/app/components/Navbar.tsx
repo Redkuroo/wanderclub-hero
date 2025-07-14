@@ -22,8 +22,8 @@ const Navbar = () => (
       <li className="hover:text-blue-500 cursor-pointer transition-colors hover:underline hover:underline-offset-4 focus:underline focus:underline-offset-4">THE CLUBHOUSE</li>
     </ul>
     {/* Search and Icons */}
-    <div className="flex items-center gap-2 sm:gap-3 md:gap-4 lg:gap-6 min-w-[100px] sm:min-w-[120px] md:min-w-[200px] lg:min-w-[320px] justify-end">
-      <div className="hidden md:block relative w-40 md:w-48 lg:w-72">
+    <div className="flex items-center gap-2 sm:gap-3 md:gap-6 lg:gap-6 min-w-[100px] sm:min-w-[120px] md:min-w-[260px] lg:min-w-[320px] justify-end">
+      <div className="hidden md:block relative w-40 md:w-64 lg:w-72">
         <input
           type="text"
           placeholder="Search (e.g. Mexico, Florida, Yellowstone)"
