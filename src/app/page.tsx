@@ -75,23 +75,44 @@ function Carousel() {
     "/img2.png",
     "/img3.png",
   ];
-  const [offset, setOffset] = useState(0);
+  // Duplicate images for seamless looping
+  const carouselImages = [...images, ...images];
+  const [index, setIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const timeoutRef = useRef<any>(null);
 
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
-      setOffset((prev) => (prev === 0 ? -600 : prev === -600 ? -1200 : 0));
+      setIsTransitioning(true);
+      setIndex((prev) => prev + 1);
     }, 2500);
     return () => clearTimeout(timeoutRef.current);
-  }, [offset]);
+  }, [index]);
+
+  // When we reach the duplicate set, reset instantly to the start
+  useEffect(() => {
+    if (index === images.length) {
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setIndex(0);
+      }, 700); // match transition duration
+      return () => clearTimeout(timeout);
+    }
+  }, [index, images.length]);
 
   return (
-    <div className="flex w-[1800px] h-[450px] transition-transform duration-700" style={{ transform: `translateX(${offset}px)` }}>
-      {images.map((src, i) => (
-        <div key={src} className="w-[600px] h-[450px] flex-shrink-0">
+    <div
+      className={`flex w-[${images.length * 600 * 2}px] h-[450px]`}
+      style={{
+        transform: `translateX(-${index * 600}px)`,
+        transition: isTransitioning ? 'transform 0.7s' : 'none',
+      }}
+    >
+      {carouselImages.map((src, i) => (
+        <div key={i} className="w-[600px] h-[450px] flex-shrink-0">
           <Image
             src={src}
-            alt={`Carousel image ${i + 1}`}
+            alt={`Carousel image ${((i % images.length) + 1)}`}
             width={600}
             height={450}
             className="object-cover w-full h-full"
