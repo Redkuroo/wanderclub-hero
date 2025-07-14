@@ -1,7 +1,5 @@
 'use client';
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 import PromoBar from "./components/PromoBar";
 import Navbar from "./components/Navbar";
 import Carousel from "./components/Carousel";

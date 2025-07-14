@@ -24,18 +24,16 @@ const Carousel = () => {
   const carouselImages = [...prefix, ...images, ...suffix];
   const [index, setIndex] = useState(visibleCount); // Start at first real image
   const [isTransitioning, setIsTransitioning] = useState(true);
-  const timeoutRef = useRef<any>(null);
-
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   // Slide size
   const slideWidth = isDesktop ? 600 : 0; // px, not used for mobile
-  const slideHeight = 450; // px
 
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
       setIsTransitioning(true);
       setIndex((prev) => prev + 1);
     }, 2500);
-    return () => clearTimeout(timeoutRef.current);
+    return () => clearTimeout(timeoutRef.current!);
   }, [index]);
 
   // Infinite loop logic
@@ -62,7 +60,7 @@ const Carousel = () => {
   // On mount or when layout changes, reset to first real image
   useEffect(() => {
     setIndex(visibleCount);
-  }, [isDesktop, images.length]);
+  }, [isDesktop, images.length, visibleCount]);
 
   // Calculate transform and container width
   const getTransform = () => {
