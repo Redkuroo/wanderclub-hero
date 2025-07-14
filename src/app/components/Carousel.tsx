@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 
 const Carousel = () => {
   const images = [
@@ -82,10 +81,7 @@ const Carousel = () => {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
+    <div
       className="flex h-full"
       style={{
         width: getContainerWidth(),
@@ -113,7 +109,7 @@ const Carousel = () => {
           />
         </div>
       ))}
-    </motion.div>
+    </div>
   );
 };
 

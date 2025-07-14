@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Carousel from "./components/Carousel";
 import Testimonial from "./components/Testimonial";
 import HeroHeadlineCTA from "./components/HeroHeadlineCTA";
+import { motion } from "framer-motion";
 
 export default function Home() {
   return (
@@ -14,9 +15,14 @@ export default function Home() {
       <PromoBar />
       <Navbar />
       <div className="w-full flex justify-center mt-0">
-        <div className="relative w-full h-[calc(100vw*0.75)] sm:h-[320px] md:w-[1800px] md:h-[450px] overflow-hidden rounded-lg shadow-lg">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          className="relative w-full h-[calc(100vw*0.75)] sm:h-[320px] md:w-[1800px] md:h-[450px] overflow-hidden rounded-lg shadow-lg"
+        >
           <Carousel />
-        </div>
+        </motion.div>
       </div>
       <Testimonial />
       <HeroHeadlineCTA />
