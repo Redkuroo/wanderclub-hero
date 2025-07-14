@@ -33,9 +33,9 @@ const Navbar = () => (
         <Image src="/Search.svg" alt="Search" width={20} height={20} className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
       </div>
       {/* Mobile icons */}
-      <Image src="/Customer.svg" alt="Customer" width={22} height={22} className="w-[22px] h-[22px] sm:w-[24px] sm:h-[24px] transition-transform duration-150 hover:scale-110 focus:scale-110" />
-      <Image src="/Shopping Cart.svg" alt="Cart" width={22} height={22} className="w-[22px] h-[22px] sm:w-[24px] sm:h-[24px] transition-transform duration-150 hover:scale-110 focus:scale-110" />
-      <Image src="/Menu.svg" alt="Menu" width={22} height={22} className="md:hidden w-[22px] h-[22px] sm:w-[24px] sm:h-[24px] transition-transform duration-150 hover:scale-110 focus:scale-110" />
+      <Image src="/Customer.svg" alt="Customer" width={22} height={22} className="w-[22px] h-[22px] sm:w-[24px] sm:h-[24px] transition-transform duration-150 hover:scale-110 focus:scale-110 cursor-pointer" />
+      <Image src="/Shopping Cart.svg" alt="Cart" width={22} height={22} className="w-[22px] h-[22px] sm:w-[24px] sm:h-[24px] transition-transform duration-150 hover:scale-110 focus:scale-110 cursor-pointer" />
+      <Image src="/Menu.svg" alt="Menu" width={22} height={22} className="md:hidden w-[22px] h-[22px] sm:w-[24px] sm:h-[24px] transition-transform duration-150 hover:scale-110 focus:scale-110 cursor-pointer" />
     </div>
   </motion.nav>
 );
