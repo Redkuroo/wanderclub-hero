@@ -65,8 +65,8 @@ export default function Home() {
         </div>
       </nav>
       {/* Hero Images Carousel */}
-      <div className="w-full flex justify-center mt-6">
-        <div className="relative w-full max-w-[600px] h-[calc(100vw*0.75)] md:max-w-[1800px] md:w-[1800px] md:h-[450px] h-[calc(100vw*0.75)] overflow-hidden rounded-lg shadow-lg">
+      <div className="w-full flex justify-center mt-0">
+        <div className="relative w-full h-[calc(100vw*0.75)] md:w-[1800px] md:h-[450px] overflow-hidden rounded-lg shadow-lg">
           <Carousel />
         </div>
       </div>
@@ -102,19 +102,8 @@ function Carousel() {
     "/img2.png",
     "/img3.png",
   ];
-  // Duplicate images for seamless looping
-  const visibleImages = useVisibleImages();
-  // For seamless loop, duplicate images enough to cover the visible area
-  const carouselImages = [...images, ...images, ...images];
-  const [index, setIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(true);
-  const timeoutRef = useRef<any>(null);
-
-  // Calculate slide width
-  const slideWidth = 600; // px
-  const slideHeight = 450; // px
+  // Responsive: 3 visible on desktop, 1 on mobile
   const [isDesktop, setIsDesktop] = useState(false);
-
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 768);
     handleResize();
@@ -122,7 +111,19 @@ function Carousel() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Animation interval
+  // Infinite loop: duplicate images at both ends
+  const visibleCount = isDesktop ? 3 : 1;
+  const prefix = images.slice(-visibleCount);
+  const suffix = images.slice(0, visibleCount);
+  const carouselImages = [...prefix, ...images, ...suffix];
+  const [index, setIndex] = useState(visibleCount); // Start at first real image
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  const timeoutRef = useRef<any>(null);
+
+  // Slide size
+  const slideWidth = isDesktop ? 600 : 0; // px, not used for mobile
+  const slideHeight = 450; // px
+
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
       setIsTransitioning(true);
@@ -131,41 +132,40 @@ function Carousel() {
     return () => clearTimeout(timeoutRef.current);
   }, [index]);
 
-  // When we reach the end, reset instantly to the start (after transition)
+  // Infinite loop logic
   useEffect(() => {
-    if (isDesktop && index >= images.length * 2) {
+    if (index === carouselImages.length - visibleCount) {
+      // After last real image, jump to first real image
       const timeout = setTimeout(() => {
         setIsTransitioning(false);
-        setIndex(images.length);
-      }, 700); // match transition duration
-      return () => clearTimeout(timeout);
-    } else if (!isDesktop && index >= images.length * 2) {
-      const timeout = setTimeout(() => {
-        setIsTransitioning(false);
-        setIndex(images.length);
+        setIndex(visibleCount);
       }, 700);
       return () => clearTimeout(timeout);
-    } else {
-      setIsTransitioning(true);
     }
-  }, [index, images.length, isDesktop]);
+    if (index === 0) {
+      // Before first real image, jump to last real image
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setIndex(carouselImages.length - 2 * visibleCount);
+      }, 700);
+      return () => clearTimeout(timeout);
+    }
+    setIsTransitioning(true);
+  }, [index, carouselImages.length, visibleCount]);
 
-  // On mount, set index to images.length for seamless loop
+  // On mount or when layout changes, reset to first real image
   useEffect(() => {
-    setIndex(images.length);
+    setIndex(visibleCount);
   }, [isDesktop, images.length]);
 
-  // Calculate transform for correct alignment
+  // Calculate transform and container width
   const getTransform = () => {
     if (isDesktop) {
-      // Always show 3 images, so offset by index * slideWidth
       return `translateX(-${index * slideWidth}px)`;
     } else {
       return `translateX(-${index * 100}%)`;
     }
   };
-
-  // Set container width for desktop (3 images visible)
   const getContainerWidth = () => {
     if (isDesktop) {
       return `${carouselImages.length * slideWidth}px`;
@@ -191,14 +191,15 @@ function Carousel() {
               ? `flex-shrink-0 w-[600px] h-[450px]`
               : `flex-shrink-0 w-full h-full`
           }
-          style={isDesktop ? { width: `${slideWidth}px`, height: `${slideHeight}px` } : {}}
+          style={isDesktop ? { width: `600px`, height: `450px` } : {}}
         >
           <Image
             src={src}
-            alt={`Carousel image ${((i % images.length) + 1)}`}
-            fill
+            alt={`Carousel image ${((i - visibleCount + images.length) % images.length) + 1}`}
+            width={600}
+            height={450}
             className="object-contain w-full h-full bg-white"
-            priority={i === 0}
+            priority={i === visibleCount}
           />
         </div>
       ))}
