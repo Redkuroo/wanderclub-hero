@@ -12,7 +12,7 @@ export default function Home() {
     <div className="min-h-screen bg-white flex flex-col">
       <PromoBar />
       <Navbar />
-      <div className="w-full flex justify-center mt-0">
+      <div className="w-full flex justify-center mt-0 cursor-pointer">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
